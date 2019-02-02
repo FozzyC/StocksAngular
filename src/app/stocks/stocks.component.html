@@ -1,14 +1,15 @@
 <div class="container">
 
   <div class="row">
-    <div class="col-md-6 offset-md-3">
+      <div class="col-md-4">
+      </div>
+    <div class="col-md-6">
   <div class="form form-row">
       <div class="col">
-
-    <input type="text" [(ngModel)]="inputSymbol" ng-change="inputSymbol = (inputSymbol | uppercase)" placeholder="Search stock symbol" class="form-control">
+      <input type="text" [(ngModel)]="inputSymbol" ng-change="inputSymbol = (inputSymbol | uppercase)" placeholder="Search stock symbol" class="form-control">
   </div>
-  <div class="col">
 
+  <div class="col">
       <select class="form-control" [(ngModel)]="inputDuration">
         <option value="1m">1 Month</option> 
         <option value="3m">3 Months</option> 
@@ -24,16 +25,31 @@
   </div>
 </div>
 
-<div class="row">
-    <div class="col-md-6 offset-md-3">
+<div *ngIf="stockCompany" class="row">
+  <div class="col-md-4">
+    <img src="{{stockCompany.logo}}">
+  </div>
+    <div class="col-md-6">
       <label>{{stockCompany.companyName}}</label><br />
       <label>{{stockCompany.website}}</label><br />
       <label>{{stockCompany.sector}}</label><br />
+     
     </div>
 </div>
 
 <div class="row">
-  <div class="col-md-6 offset-md-3">
+  <div class="col-md-4">
+      <h3>My Watched</h3>
+      <button class="btn btn-primary" *ngIf="stockCompany" (click)="addWatched()">Add To Watchlist</button>
+      <ul class="list-group">
+          <li (click)="searchClick(wa.symbol)" class="list-group-item" *ngFor="let wa of (watchedItems | async)">{{wa.symbol}} - {{wa.companyName}}</li>
+        </ul>
+      <h3>Recent Searches:</h3>
+      <ul class="list-group">
+        <li (click)="searchClick(se.symbol)" class="list-group-item" *ngFor="let se of (searches | async)">{{se.symbol}} - {{se.companyName}} - {{se.date}}</li>
+      </ul>
+  </div>
+  <div class="col-md-6">
   <div *ngIf="stockResults">
     <table class="table table-striped">
       <thead>
@@ -53,7 +69,7 @@
     </table>
   </div>
   </div>
-  <div *ngIf="peers" class="col-md-3">
+  <div *ngIf="peers" class="col-md-2">
       <h3>Related:</h3>
       <div *ngFor="let r of peers">
         <button type="button" class="btn btn-default" (click)="setSelected(r)">{{r}}</button>

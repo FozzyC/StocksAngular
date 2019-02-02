@@ -6,6 +6,9 @@ import { StocksComponent } from './stocks/stocks.component';
 import { FormsModule } from '@angular/forms'; // <-- NgModel lives here
 import { HttpClientModule } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { AngularFireModule } from 'angularfire2';
+import {AngularFireDatabase , AngularFireDatabaseModule } from 'angularfire2/database';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -15,9 +18,10 @@ import { Observable } from 'rxjs';
   imports: [
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase)
   ],
-  providers: [],
+  providers: [AngularFireDatabase],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
